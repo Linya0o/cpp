@@ -1,36 +1,52 @@
+#include <algorithm>
 #include <iostream>
 #include <cstdio>
+#include <compare>
+#include <cctype>
+#include <limits>
+#include <numbers>
 
 int main(int argc, char *argv[]) {
-    unsigned short font {0x064C};
-    auto italic {static_cast<unsigned short>(1u << 6)};
-    auto bold {static_cast<unsigned short>(1u << 5)};
-
-    font |= italic | bold;
-    printf("font = 0x%X\n", font);
-    font &= ~bold;            // turn off bold
-    font &= ~bold & ~italic;  // turn bold and italic off
-    font &= ~(bold | italic);  // turn bold and italic off
-    printf("font = 0x%X\n", font);
-    font ^= bold;  // toggle bold
-    printf("font = 0x%X\n", font);
 #if 0
-    // 旧式枚举, 缺少class修饰
-    enum Day {Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
+    const double nan {std::numeric_limits<double>::quiet_NaN()};
+    std::cout << (nan == nan) << std::endl;    // NaN值不等于任何值
 
-    // 作用域的枚举，类型规范，输出转换
-    enum class Punctuation:char { Comma = ',', Exclamation = '!', Question = '?' };
-    Punctuation ch {Punctuation::Question};
-    std::cout << static_cast<char>(ch) << std::endl;
+    int value {12};
+    std::strong_ordering ordering { value <=> 0 };
+    std::cout << "value < 0: " << (ordering == std::strong_ordering::less) << std::endl;
+    std::cout << "value ==0: " << (ordering == std::strong_ordering::equal) << std::endl;
+    std::cout << "value > 0: " << (ordering == std::strong_ordering::greater) << std::endl;
+    std::cout << "value ==0: " << std::is_eq(ordering) << std::endl;
 
-    // 通过using声明绕过枚举的作用域要求
-    using enum Punctuation;
-    ch = Comma;
+    std::cout << "isspace(' '): " << std::isspace(' ') << std::endl;
+    std::cout << "isblank(' '): " << std::isblank(' ') << std::endl;
+    std::cout << "ispunct(' '): " << std::ispunct(' ') << std::endl;
+    std::cout << "isprint(' '): " << std::isprint(' ') << std::endl;
+    std::cout << "isgraph(' '): " << std::isgraph(' ') << std::endl;
 
-    // using指令
-    using Bigones = unsigned long long;
-
+    char input;
+    std::cin >> input;
+    if (auto lower {static_cast<char>(tolower(input))}; lower >= 'a' && lower <= 'z')
+		std::cout << "You've entered the letter '" << lower << "\'" << std::endl;
 #endif // 0
+
+    // practices
+    enum class AcademicDegree { none, associate, bachelor, professional, master, doctor };
+    unsigned age;
+    char gender;
+    bool married, speaksHindi, speaksUrdu;
+    std::cout << "please input your age: ";
+    if (std::cin >> age; age < 21 || age > 35) std::cout << "You don't meet the conditions\n";
+    std::cout << "please input your gender(m:male, f:female): ";
+    if (std::cin >> gender; gender != 'f') std::cout << "You don't meet the conditions\n";
+    std::cout << "are you married? (1:Yes, 0:No): ";
+    if (std::cin >> married; married) std::cout << "You don't meet the conditions\n";
+    std::cout << "can you speak Handi? (1:Yes, 0:No): ";
+    if (std::cin >> speaksHindi; !speaksHindi) std::cout << "You don't meet the conditions\n";
+    std::cout << "can you speak Urdu? (1:Yes, 0:No): ";
+    if (std::cin >> speaksUrdu; !speaksUrdu) std::cout << "You don't meet the conditions\n";
+
+    std::cout << "You have the offer.\n";
 
     return 0;
 }
