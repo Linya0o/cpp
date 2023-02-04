@@ -1,5 +1,5 @@
-CC      = clang++
-CFLAGS  = -g -Wall -Wno-unused-parameter -pedantic -std=c++20 -stdlib=libc++
+CC      = g++
+CFLAGS  = -g -Wall -Wno-unused-parameter -pedantic -std=gnu++20
 TARGET  = main
 SRC_DIR = src
 BIN_DIR = bin
